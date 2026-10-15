@@ -1,26 +1,228 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --color-brand-purple: #681d70;
+  --color-brand-gold: #d3ac4d;
+  --color-brand-green: #04a75a;
+  --color-brand-teal: #1d5d53;
+  --color-brand-teal-light: #3fa899;
+  --color-brand-lime: #88bd32;
+  --color-footer: #0a0410;
+
+  --font-display:
+    "Optima", "Candara", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+:root,
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #fbf8fc;
+  --fg: #1e1022;
+  --muted: #5e4c66;
+  --line: #e6dcea;
+  --primary: #681d70;
+  --primary-fg: #ffffff;
+  --accent: #d3ac4d;
+  --green: #037f44;
+  --glow-a: rgb(104 29 112 / 0.16);
+  --glow-b: rgb(29 93 83 / 0.16);
+}
+
+[data-theme="dark"] {
+  --bg: #150b19;
+  --surface: #1f1226;
+  --fg: #f4edf6;
+  --muted: #b9a8c1;
+  --line: #3a2640;
+  --primary: #ba6cc6;
+  --primary-fg: #150b19;
+  --accent: #d3ac4d;
+  --green: #2bd27b;
+  --glow-a: rgb(186 108 198 / 0.2);
+  --glow-b: rgb(63 168 153 / 0.18);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-green: var(--green);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+/* ------------------------------------------------------------------
+   ANIMATIONS (all turn off for visitors who ask for reduced motion)
+------------------------------------------------------------------- */
+
+/* Hero backdrop: a faint grid with two slowly drifting glows */
+.hero-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: 0.7;
+  -webkit-mask-image: radial-gradient(
+    ellipse 60% 70% at 75% 45%,
+    #000,
+    transparent
+  );
+  mask-image: radial-gradient(ellipse 60% 70% at 75% 45%, #000, transparent);
+}
+.glow {
+  position: absolute;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.glow-a {
+  top: -8rem;
+  right: -6rem;
+  background: radial-gradient(circle, var(--glow-a), transparent 65%);
+}
+.glow-b {
+  bottom: -10rem;
+  left: -8rem;
+  background: radial-gradient(circle, var(--glow-b), transparent 65%);
+  animation-duration: 22s;
+}
+@keyframes drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(40px, 30px);
+  }
+}
+
+/* Hero text rises in on page load */
+.rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rise-delay, 0s) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Code window: each line "types" itself out, then a cursor blinks */
+.type-line {
+  display: inline-block;
+  overflow: hidden;
+  white-space: pre;
+  vertical-align: bottom;
+  width: 0;
+  animation: type var(--dur, 1s) steps(var(--n)) var(--delay, 0s) forwards;
+}
+@keyframes type {
+  to {
+    width: calc(var(--n) * 1ch);
+  }
+}
+.cursor {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.15em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  opacity: 0;
+  animation: blink 1s steps(1) var(--cursor-delay, 0s) infinite;
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Floating badges */
+.float {
+  animation: float var(--float-dur, 6s) ease-in-out var(--float-delay, 0s)
+    infinite;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Scroll reveal. Content is only hidden when JavaScript is running (see layout.js). */
+.reveal {
+  transition:
+    opacity 0.7s ease var(--reveal-delay, 0ms),
+    transform 0.7s ease var(--reveal-delay, 0ms);
+}
+[data-js] .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* The gold bar above each step grows when the step appears */
+.bar {
+  transform-origin: left;
+  transition: transform 0.8s ease calc(var(--reveal-delay, 0ms) + 200ms);
+}
+[data-js] .reveal:not(.is-visible) .bar {
+  transform: scaleX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow,
+  .float,
+  .rise {
+    animation: none;
+  }
+  .type-line {
+    animation: none;
+    width: calc(var(--n) * 1ch);
+  }
+  .cursor {
+    animation: none;
+    opacity: 1;
+  }
+  .reveal,
+  .bar {
+    transition: none;
+  }
+  [data-js] .reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+  [data-js] .reveal:not(.is-visible) .bar {
+    transform: none;
+  }
 }
