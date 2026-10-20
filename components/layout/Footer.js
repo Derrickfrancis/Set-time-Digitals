@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import { MailIcon, PhoneIcon, WhatsAppIcon } from "@/components/ui/Icons";
 import { site } from "@/lib/site";
 
 // The footer is dark in both light and dark mode, so it uses fixed colours.
@@ -33,14 +34,22 @@ export default function Footer() {
           <h2 className="font-display text-lg font-bold text-brand-gold">
             Contact
           </h2>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-3 space-y-3">
             <li>
-              <a href={`mailto:${site.email}`} className={link}>
+              <a
+                href={`mailto:${site.email}`}
+                className={`${link} flex items-center gap-3`}
+              >
+                <MailIcon className="h-5 w-5 shrink-0 text-brand-gold" />
                 {site.email}
               </a>
             </li>
             <li>
-              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className={link}>
+              <a
+                href={`tel:${site.phone.replace(/[^\d+]/g, "")}`}
+                className={`${link} flex items-center gap-3`}
+              >
+                <PhoneIcon className="h-5 w-5 shrink-0 text-brand-gold" />
                 {site.phone}
               </a>
             </li>
@@ -48,8 +57,9 @@ export default function Footer() {
               <a
                 href={site.whatsapp}
                 rel="noopener noreferrer"
-                className={link}
+                className={`${link} flex items-center gap-3`}
               >
+                <WhatsAppIcon className="h-5 w-5 shrink-0 text-brand-gold" />
                 Chat on WhatsApp
               </a>
             </li>

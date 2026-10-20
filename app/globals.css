@@ -226,3 +226,16 @@ body {
     transform: none;
   }
 }
+/* Logo: show the light logo in light mode and the dark logo in dark mode. */
+.logo-light {
+  display: block !important;
+}
+.logo-dark {
+  display: none !important;
+}
+[data-theme="dark"] .logo-light {
+  display: none !important;
+}
+[data-theme="dark"] .logo-dark {
+  display: block !important;
+}
