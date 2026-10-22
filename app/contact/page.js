@@ -1,6 +1,7 @@
 import PageHeader from "@/components/ui/PageHeader";
 import ContactForm from "@/components/contact/ContactForm";
 import { MailIcon, PhoneIcon, WhatsAppIcon } from "@/components/ui/Icons";
+import { SocialIcon } from "@/components/ui/SocialIcons";
 import { site } from "@/lib/site";
 
 export const metadata = {
@@ -32,6 +33,9 @@ function ContactRow({ href, icon, label, value, badge, external = false }) {
 }
 
 export default function ContactPage() {
+  // Only show social links that start with https://, so a typo can never create an unsafe link.
+  const socials = site.socials.filter((s) => s.url.startsWith("https://"));
+
   return (
     <>
       <PageHeader title="Contact us">
@@ -71,6 +75,36 @@ export default function ContactPage() {
               />
             </li>
           </ul>
+
+          {socials.length > 0 && (
+            <div className="mt-10">
+              <h2 className="font-display text-2xl font-bold">Follow us</h2>
+              <ul className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
+                {socials.map((s) => (
+                  <li key={s.platform}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-3"
+                    >
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-surface text-fg transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-fg">
+                        <SocialIcon platform={s.platform} className="h-5 w-5" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm text-muted">
+                          {s.label}
+                        </span>
+                        <span className="block truncate font-medium text-fg underline-offset-4 group-hover:underline">
+                          {s.handle}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div>
