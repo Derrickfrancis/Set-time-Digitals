@@ -1,4 +1,6 @@
+import Link from "next/link";
 import ButtonLink from "@/components/ui/ButtonLink";
+import Picture from "@/components/ui/Picture";
 import Reveal from "@/components/ui/Reveal";
 import { programs } from "@/content/programs";
 
@@ -15,19 +17,34 @@ export default function ProgramsPreview() {
           </p>
         </Reveal>
 
-        <ul className="mt-10 border-t border-line">
+        <ul className="mt-10 grid gap-4 md:grid-cols-2">
           {programs.map((p, i) => (
-            <Reveal
-              as="li"
-              key={p.slug}
-              delay={i * 100}
-              className="grid gap-2 border-b border-line py-6 md:grid-cols-[1fr_2fr_auto] md:items-baseline md:gap-8"
-            >
-              <h3 className="font-display text-xl font-bold">{p.name}</h3>
-              <p className="text-muted">{p.summary}</p>
-              <p className="text-sm text-muted md:text-right">
-                {p.duration} · {p.level}
-              </p>
+            <Reveal as="li" key={p.slug} delay={(i % 2) * 100}>
+              <Link
+                href={`/programs#${p.slug}`}
+                className="group flex h-full items-center gap-4 rounded-lg border border-line bg-bg p-3 transition-transform duration-300 motion-safe:hover:-translate-y-0.5"
+              >
+                <Picture
+                  image={p.image}
+                  art={p.art}
+                  alt={`${p.name} program`}
+                  sizes="128px"
+                  className="w-28 shrink-0 sm:w-32"
+                />
+                <span className="min-w-0">
+                  <span className="block font-display text-lg font-bold group-hover:underline">
+                    {p.name}
+                  </span>
+                  {(p.duration || p.level) && (
+                    <span className="mt-0.5 block text-sm font-medium text-primary">
+                      {[p.duration, p.level].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
+                  <span className="mt-1 line-clamp-2 block text-sm text-muted">
+                    {p.summary}
+                  </span>
+                </span>
+              </Link>
             </Reveal>
           ))}
         </ul>
