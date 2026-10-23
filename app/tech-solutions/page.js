@@ -1,5 +1,7 @@
 import PageHeader from "@/components/ui/PageHeader";
 import ButtonLink from "@/components/ui/ButtonLink";
+import Picture from "@/components/ui/Picture";
+import Reveal from "@/components/ui/Reveal";
 import { services } from "@/content/services";
 
 export const metadata = {
@@ -17,23 +19,39 @@ export default function TechSolutionsPage() {
       </PageHeader>
 
       <section className="mx-auto max-w-6xl px-5 py-12 md:py-16">
-        <ul className="border-t border-line">
-          {services.map((s) => (
-            <li
+        <ul className="space-y-8">
+          {services.map((s, i) => (
+            <Reveal
+              as="li"
               key={s.slug}
-              id={s.slug}
-              className="grid gap-4 border-b border-line py-8 md:grid-cols-[1fr_2fr] md:gap-8"
+              delay={(i % 3) * 80}
+              className="overflow-hidden rounded-xl border border-line bg-bg"
             >
-              <h2 className="font-display text-2xl font-bold">{s.name}</h2>
-              <div>
-                <p className="text-muted">{s.summary}</p>
-                <ul className="mt-4 list-disc space-y-1 pl-5 marker:text-accent">
-                  {s.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
+              <div id={s.slug} className="scroll-mt-28" />
+              <div className="grid md:grid-cols-[20rem_1fr]">
+                <Picture
+                  image={s.image}
+                  art={s.art}
+                  alt={`${s.name} service`}
+                  sizes="(min-width: 768px) 320px, 100vw"
+                  className="rounded-none md:aspect-auto md:min-h-56"
+                />
+                <div className="p-6 md:p-8">
+                  <h2 className="font-display text-2xl font-bold">{s.name}</h2>
+                  <p className="mt-3 text-lg text-muted">{s.summary}</p>
+                  <ul className="mt-4 list-disc space-y-1 pl-5 marker:text-accent">
+                    {s.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-6">
+                    <ButtonLink href="/contact" variant="outline" size="sm">
+                      Ask about this service
+                    </ButtonLink>
+                  </div>
+                </div>
               </div>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </section>

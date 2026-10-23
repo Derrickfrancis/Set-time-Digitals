@@ -772,6 +772,135 @@ const art = {
       </>
     ),
   },
+  devices: {
+    bg: "from-brand-purple to-brand-teal",
+    draw: (
+      <>
+        <rect x="40" y="70" width="230" height="150" rx="12" fill="#1E1022" />
+        <rect x="52" y="82" width="206" height="126" rx="6" fill="#fff" />
+        <rect x="52" y="82" width="206" height="20" rx="6" fill="#E6DCEA" />
+        <rect x="52" y="94" width="206" height="8" fill="#E6DCEA" />
+        <circle cx="64" cy="92" r="3.5" fill="#681D70" />
+        <circle cx="75" cy="92" r="3.5" fill="#D3AC4D" />
+        <circle cx="86" cy="92" r="3.5" fill="#04A75A" />
+        <rect x="64" y="112" width="182" height="40" rx="6" fill="#681D70" />
+        <rect x="74" y="122" width="80" height="8" rx="4" fill="#fff" />
+        <rect
+          x="74"
+          y="136"
+          width="50"
+          height="6"
+          rx="3"
+          fill="#fff"
+          opacity=".6"
+        />
+        <rect x="64" y="160" width="56" height="38" rx="6" fill="#D3AC4D" />
+        <rect x="128" y="160" width="56" height="38" rx="6" fill="#88BD32" />
+        <rect x="192" y="160" width="54" height="38" rx="6" fill="#1D5D53" />
+        <path d="M24 220 H286 L274 238 H36 Z" fill="#E6DCEA" />
+        <rect
+          x="262"
+          y="92"
+          width="92"
+          height="170"
+          rx="16"
+          fill="#fff"
+          stroke="#1E1022"
+          strokeWidth="5"
+        />
+        <rect x="296" y="100" width="24" height="5" rx="2.5" fill="#E6DCEA" />
+        <rect x="274" y="116" width="68" height="46" rx="8" fill="#D3AC4D" />
+        <circle cx="292" cy="132" r="7" fill="#fff" />
+        <path
+          d="M274 162 L296 142 L312 154 L326 146 L342 162 Z"
+          fill="#88BD32"
+        />
+        <rect
+          x="274"
+          y="172"
+          width="58"
+          height="7"
+          rx="3.5"
+          fill="#1E1022"
+          opacity=".6"
+        />
+        <rect
+          x="274"
+          y="186"
+          width="40"
+          height="7"
+          rx="3.5"
+          fill="#1E1022"
+          opacity=".3"
+        />
+        <rect x="274" y="208" width="68" height="26" rx="13" fill="#681D70" />
+      </>
+    ),
+  },
+  support: {
+    bg: "from-brand-teal to-brand-purple",
+    draw: (
+      <>
+        <path
+          d="M40 60 L90 92 L132 52"
+          stroke="#3FA899"
+          strokeWidth="3"
+          fill="none"
+        />
+        <circle cx="40" cy="60" r="6" fill="#88BD32" />
+        <circle cx="90" cy="92" r="6" fill="#D3AC4D" />
+        <circle cx="132" cy="52" r="6" fill="#88BD32" />
+        <g transform="translate(108 176)">
+          <circle r="38" fill="#D3AC4D" />
+          {[0, 45, 90, 135].map((a) => (
+            <rect
+              key={a}
+              x="-8"
+              y="-54"
+              width="16"
+              height="108"
+              rx="4"
+              fill="#D3AC4D"
+              transform={`rotate(${a})`}
+            />
+          ))}
+          <circle r="18" fill="#2A1631" />
+        </g>
+        <rect x="196" y="60" width="150" height="62" rx="16" fill="#fff" />
+        <polygon points="216,122 238,122 220,142" fill="#fff" />
+        <rect x="214" y="78" width="100" height="8" rx="4" fill="#681D70" />
+        <rect
+          x="214"
+          y="96"
+          width="70"
+          height="8"
+          rx="4"
+          fill="#681D70"
+          opacity=".4"
+        />
+        <rect x="172" y="152" width="170" height="62" rx="16" fill="#88BD32" />
+        <polygon points="322,214 300,214 318,234" fill="#88BD32" />
+        <rect
+          x="190"
+          y="170"
+          width="110"
+          height="8"
+          rx="4"
+          fill="#1E1022"
+          opacity=".75"
+        />
+        <rect
+          x="190"
+          y="188"
+          width="76"
+          height="8"
+          rx="4"
+          fill="#1E1022"
+          opacity=".4"
+        />
+      </>
+    ),
+  },
   default: {
     bg: "from-brand-purple to-brand-teal",
     draw: (
