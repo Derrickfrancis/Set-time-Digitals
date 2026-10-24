@@ -5,11 +5,30 @@ import { site } from "@/lib/site";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 export const metadata = {
+  // Lets Next.js turn short image and page paths into full web addresses for search and social sites.
+  metadataBase: new URL(site.url),
   title: {
     default: `${site.name} | Tech training and solutions`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  // Each page declares its own address as the "main" one, which avoids duplicate-page problems.
+  alternates: { canonical: "./" },
+  openGraph: {
+    siteName: site.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+// Colours used by the browser bar on phones.
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#150b19" },
+  ],
 };
 
 const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}document.documentElement.setAttribute("data-js","1")})()`;

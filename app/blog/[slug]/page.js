@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import ButtonLink from "@/components/ui/ButtonLink";
 import PostBody from "@/components/blog/PostBody";
 import Picture from "@/components/ui/Picture";
+import JsonLd from "@/components/seo/JsonLd";
+import { site } from "@/lib/site";
 import { posts } from "@/content/posts";
 import {
   getPosts,
@@ -23,7 +25,17 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      publishedTime: post.date,
+    },
+  };
 }
 
 export default async function PostPage({ params }) {
@@ -38,6 +50,18 @@ export default async function PostPage({ params }) {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.excerpt,
+          datePublished: post.date,
+          author: { "@type": "Organization", name: post.author },
+          publisher: { "@type": "Organization", name: site.name },
+          mainEntityOfPage: `${site.url}/blog/${post.slug}`,
+        }}
+      />
       <header className="border-b border-line bg-surface">
         <div className="mx-auto max-w-3xl px-5 py-12 md:py-16">
           <Link
