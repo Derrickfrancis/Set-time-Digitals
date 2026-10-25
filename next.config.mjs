@@ -1,4 +1,11 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 const isProduction = process.env.NODE_ENV === "production";
+
+// The folder this project lives in. Telling Next.js explicitly stops it from guessing
+// (and from picking up unrelated files in parent folders).
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 // Content-Security-Policy: a list of rules telling the browser what the site may load and do.
 // Anything not allowed here is blocked, even if an attacker managed to put it on a page.
@@ -56,6 +63,7 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  outputFileTracingRoot: projectRoot,
   poweredByHeader: false, // stops advertising "X-Powered-By: Next.js"
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
@@ -66,6 +74,7 @@ const nextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
+    root: projectRoot,
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
